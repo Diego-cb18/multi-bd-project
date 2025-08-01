@@ -18,7 +18,6 @@ __pycache__/
 *.pyc
 
 # Database files (por si alguna vez usas dumps)
-*.sql
 *.dump
 *.bak
 
