@@ -1,0 +1,28 @@
+# Node.js
+node_modules/
+dist/
+.env
+
+# Docker volumes/overlays
+docker-data/
+*.log
+
+# MacOS
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Python (si usas scripts)
+__pycache__/
+*.pyc
+
+# Database files (por si alguna vez usas dumps)
+*.sql
+*.dump
+*.bak
+
+# Logs
+*.log
+*.err
+*.out

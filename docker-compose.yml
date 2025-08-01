@@ -1,0 +1,47 @@
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-multitenant
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init/mysql:/docker-entrypoint-initdb.d
+
+  postgres:
+    image: postgres:14
+    container_name: postgres-multitenant
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init/postgres:/docker-entrypoint-initdb.d
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-multitenant
+    ports:
+      - "${MSSQL_PORT}:1433"
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+    volumes:
+      - mssql_data:/var/opt/mssql
+      - ./init/mssql:/init
+    entrypoint: >
+      /bin/sh -c "
+        /opt/mssql/bin/sqlservr & 
+        echo 'Waiting for SQL Server to start...' && sleep 30 &&
+        /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P ${MSSQL_SA_PASSWORD} -i /init/init.sql -C &&
+        wait
+      "
+
+volumes:
+  mysql_data:
+  postgres_data:
+  mssql_data:
