@@ -1,4 +1,4 @@
-# Multi-BD Project
+# Multi-DB Project
 
 Este proyecto levanta un entorno multibase de datos usando Docker Compose con los siguientes motores:
 
